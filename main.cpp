@@ -14,7 +14,7 @@ int main() {
     const string prefix = ">>> ";
     cout << prefix;
 
-    for (string command; cin >> command;) {
+    for (string command; getline(cin, command);) {
 
         // Выходит из терминала
         if (command == "exit") break;
