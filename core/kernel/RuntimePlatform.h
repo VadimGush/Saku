@@ -6,7 +6,7 @@
 #define CALC_RUNTIMEPLATFORM_H
 
 #include "Platform.h"
-#include "../functions/Function.h"
+#include "../operations/Operation.h"
 #include <memory>
 #include <iostream>
 
@@ -17,7 +17,7 @@ namespace Calc {
     public:
         RuntimePlatform() : Platform("Runtime Platform") {}
 
-        void Handle(Function &function, std::ostream &output) override;
+        void Handle(Operation &function, std::ostream &output) override;
     };
 }
 

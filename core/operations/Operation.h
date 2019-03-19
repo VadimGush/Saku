@@ -6,17 +6,18 @@
 #define CALC_FUNCTION_H
 
 #include <iostream>
+#include <exception>
 
 namespace Calc {
 
     class RuntimePlatform;
     class CPUPlatform;
 
-    // Выполнение некоторой функции не поддерживается на данной платформе
-    struct PlatformNotSupported {};
+    // Если операция не поддерживает выполнение на текущей платформе
+    struct PlatformNotSupported : public std::exception {};
 
-    // Функция выполняет некоторые вычисления на указанной платформе
-    class Function {
+    // Некоторая операция, которую можно выполнить на плафторме
+    class Operation {
     public:
         virtual void Calculate(RuntimePlatform &platform, std::ostream &output) {
             throw PlatformNotSupported();
@@ -26,7 +27,7 @@ namespace Calc {
             throw PlatformNotSupported();
         }
 
-        virtual ~Function() =default;
+        virtual ~Operation() =default;
     };
 }
 #endif //CALC_FUNCTION_H

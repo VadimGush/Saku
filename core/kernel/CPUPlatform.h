@@ -14,7 +14,7 @@ namespace Calc {
         CPUPlatform(std::string name, cl::Device device)
         : Platform(std::move(name)), device_(std::move(device)) {}
 
-        void Handle(Function& function, std::ostream& output) {
+        void Handle(Operation& function, std::ostream& output) override {
             function.Calculate(*this, output);
         }
 

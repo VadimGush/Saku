@@ -6,7 +6,7 @@
 #define CALC_COMMAND_KERNELINFO_H
 
 #include "Command.h"
-#include "kernel/Kernel.h"
+#include "../kernel/Kernel.h"
 
 namespace Calc {
     class Command_KernelInfo : public Command {

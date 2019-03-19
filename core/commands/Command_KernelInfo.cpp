@@ -3,7 +3,7 @@
 //
 
 #include "Command_KernelInfo.h"
-#include "kernel/Kernel.h"
+#include "../kernel/Kernel.h"
 
 using namespace Calc;
 

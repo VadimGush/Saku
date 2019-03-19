@@ -7,7 +7,7 @@
 
 #include <memory>
 #include <iostream>
-#include "../functions/Function.h"
+#include "../operations/Operation.h"
 
 namespace Calc {
 
@@ -16,13 +16,13 @@ namespace Calc {
     class Platform {
     public:
         // Запуск функции (операции) на платформе
-        virtual void Handle(Function &function, std::ostream &output) =0;
+        virtual void Handle(Operation &function, std::ostream &output) =0;
 
         // Наименование платформы
         const std::string& GetName() const { return name_; }
 
     protected:
-        Platform(std::string name) : name_(std::move(name)) {}
+        explicit Platform(std::string name) : name_(std::move(name)) {}
 
         std::string name_;
     };

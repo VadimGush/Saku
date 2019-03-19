@@ -27,15 +27,14 @@ static void init_opencl(std::vector<std::shared_ptr<Platform>>& platforms_) {
             std::vector<cl::Device> devices;
             p.getDevices(CL_DEVICE_TYPE_CPU, &devices);
             for (auto& d : devices)
-                platforms_.push_back(std::make_shared<Calc::CPUPlatform>("OpenCL: " + d.getInfo<CL_DEVICE_NAME>(), d));
+                platforms_.push_back(std::make_shared<Calc::CPUPlatform>("OpenCL 2.0: " + d.getInfo<CL_DEVICE_NAME>(), d));
         }
     }
 }
 
 void Kernel::init(std::ostream& output) {
-    output << "Инициализирование платформ..." << std::endl;
+    output << "Поиск и создание платформ..." << std::endl;
 
-    output << "Инициализиация Runtime Platform..." << std::endl;
     // Runtime платформа для выполнения вычислений внутри программы
     platforms_.push_back(std::make_shared<RuntimePlatform>());
     // И устанавливаем её в качестве стандартной

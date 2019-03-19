@@ -6,6 +6,6 @@
 using namespace Calc;
 
 
-void Calc::RuntimePlatform::Handle(Function &function, std::ostream &output) {
+void Calc::RuntimePlatform::Handle(Operation &function, std::ostream &output) {
     function.Calculate(*this, output);
 }

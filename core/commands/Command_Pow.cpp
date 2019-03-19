@@ -3,8 +3,8 @@
 //
 
 #include "Command_Pow.h"
-#include "functions/Function_Pow.h"
-#include "kernel/Kernel.h"
+#include "../operations/Operation_Pow.h"
+#include "../kernel/Kernel.h"
 
 using namespace Calc;
 
@@ -15,6 +15,6 @@ void Command_Pow::Handle(std::istream& input, std::ostream& output) {
     output << "Степень: ";
     input >> power;
 
-    Function_Pow function(base, power);
+    Operation_Pow function(base, power);
     Kernel::Instance()->GetPlatform()->Handle(function, output);
 }

@@ -6,13 +6,13 @@
 #define CALC_FUNCTION_POW_H
 
 
-#include "Function.h"
+#include "Operation.h"
 
 namespace Calc {
-    class Function_Pow : public Function {
+    class Operation_Pow : public Operation {
     public:
 
-        Function_Pow(double base, double power);
+        Operation_Pow(double base, double power);
 
         void Calculate(RuntimePlatform& platform, std::ostream& output) override;
 
