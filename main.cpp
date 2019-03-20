@@ -1,22 +1,17 @@
 #include <iostream>
+#include "configure.h"
 #include "core/CommandManager.h"
 using namespace std;
 
 int main() {
 
-    // Инициализируем ядро
-    Calc::Kernel* kernel = Calc::Kernel::Instance();
-    kernel->init(cout);
+    cout << "Saku " << VERSION << endl;
 
-    // Инициализируем менеджер команд
     Calc::CommandManager* manager = Calc::CommandManager::Instance();
 
-    const string prefix = ">>> ";
-    cout << prefix;
+    cout << ">>> ";
+    for (string command; cin >> command; ) {
 
-    for (string command; cin >> command;) {
-
-        // Выходит из терминала
         if (command == "exit") break;
 
         try {
@@ -30,8 +25,7 @@ int main() {
         } catch (out_of_range&) {
             cout << "Комманда не найдена" << endl;
         }
-
-        cout << prefix;
+        cout << ">>> ";
     }
 
     return 0;

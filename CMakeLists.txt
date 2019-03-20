@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.13)
-project(Saku)
+project(Saku VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 17)
+
+configure_file("configure.h.in" "configure.h")
+include_directories(${CMAKE_BINARY_DIR})
 
 find_library(OpenCL REQUIRED)
 

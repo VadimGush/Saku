@@ -17,9 +17,6 @@ namespace Calc {
     public:
         static Kernel* Instance();
 
-        // Инициализация ядра
-        void init(std::ostream& output);
-
         // Список платформ
         const std::vector<std::shared_ptr<Platform>>& GetPlatforms() { return platforms_; }
 
@@ -32,7 +29,7 @@ namespace Calc {
         }
 
     private:
-        Kernel() =default;
+        Kernel();
 
         static Kernel* instance_;
         std::vector<std::shared_ptr<Platform>> platforms_;

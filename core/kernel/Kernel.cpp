@@ -16,7 +16,6 @@ Kernel* Kernel::Instance() {
     return instance_;
 }
 
-// Загружаем всё, что возможно через OpenCL
 static void init_opencl(std::vector<std::shared_ptr<Platform>>& platforms_) {
     std::vector<cl::Platform> platforms;
     cl::Platform::get(&platforms);
@@ -32,14 +31,12 @@ static void init_opencl(std::vector<std::shared_ptr<Platform>>& platforms_) {
     }
 }
 
-void Kernel::init(std::ostream& output) {
-    output << "Поиск и создание платформ..." << std::endl;
-
+Kernel::Kernel() {
     // Runtime платформа для выполнения вычислений внутри программы
     platforms_.push_back(std::make_shared<RuntimePlatform>());
     // И устанавливаем её в качестве стандартной
     current_platform_ = platforms_[0];
-
-    output << "Инициализация OpenCL..." << std::endl;
+    // Получаем все доступные устройства из OpenCL
     init_opencl(platforms_);
 }
+

@@ -1,0 +1,10 @@
+//
+// Created by tsukuto on 20.03.19.
+//
+
+#ifndef SAKU_CONFIGURE_H
+#define SAKU_CONFIGURE_H
+
+#define VERSION "@Saku_VERSION@"
+
+#endif //SAKU_CONFIGURE_H

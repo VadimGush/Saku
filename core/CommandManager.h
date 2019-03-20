@@ -25,7 +25,7 @@ namespace Calc {
         // Получить команду по её имени
         std::shared_ptr<Command> GetCommand(const std::string& command) const;
 
-        // Полные список команд
+        // Полный список команд
         const std::map<std::string, std::shared_ptr<Command>>& GetCommandMap() const;
 
     private:
