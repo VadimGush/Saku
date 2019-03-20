@@ -10,14 +10,17 @@
 #include <algorithm>
 #include <stdexcept>
 #include <iomanip>
-#include <chrono>
 #include <memory>
 using namespace Calc;
 
 // Список доступных операторов (порядок операторов определяет их приоритет в порядке возрастания)
-static std::array<char, 5> operators{'+', '-', '/', '*', '^'};
+static const std::array<char, 5> operators{'+', '-', '/', '*', '^'};
 // Список доступных функций
-static std::array<std::string, 4> functions{"sin", "cos", "exp", "sqrt"};
+static const std::array<std::string, 4> functions{"sin", "cos", "exp", "sqrt"};
+// Типы элементов математического выражения
+enum class Type { NOTHING, OPERATOR, VARIABLE, NUMBER, PAREN_LEFT, PAREN_RIGHT, FUNCTION};
+// Типы ассоциативности операторов мат. выражения
+enum class Associativity { RIGHT, LEFT };
 
 struct ParsingException : public std::exception {
     explicit ParsingException(std::string what) : what_{std::move(what)} {}
@@ -29,45 +32,41 @@ private:
     std::string what_;
 };
 
-// Типы элементов, которые мы можем встретить внутри функции
-enum class Type { NOTHING, OPERATOR, VARIABLE, NUMBER, PAREN_LEFT, PAREN_RIGHT, FUNCTION};
-enum class Associativity { RIGHT, LEFT };
-
-// Элемент функции
-struct Object{
-    explicit Object(Type ntype) : type{ntype} {}
+// Элемент математического выражения
+struct Element {
+    explicit Element(Type ntype) : type{ntype} {}
     Type type;
 };
 
-struct Operator : Object {
-    explicit Operator(char noper, int nprec) : Object{Type::OPERATOR}, oper{noper}, prec{nprec} {}
+struct Operator : Element {
+    explicit Operator(char noper, int nprec) : Element{Type::OPERATOR}, oper{noper}, prec{nprec} {}
     char oper;  // оператор
     int prec;   // приоритет
     Associativity asc = Associativity::LEFT;
 };
 
-struct ObjectFunction : Object {
-    explicit ObjectFunction(std::string fname) : Object{Type::FUNCTION}, name{std::move(fname)} {}
+struct ElementFunction : Element {
+    explicit ElementFunction(std::string fname) : Element{Type::FUNCTION}, name{std::move(fname)} {}
     std::string name;
 };
 
-struct Variable : Object {
-    explicit Variable(std::string vname) : Object{Type::VARIABLE}, name{std::move(vname)} {}
+struct Variable : Element {
+    explicit Variable(std::string vname) : Element{Type::VARIABLE}, name{std::move(vname)} {}
     std::string name;
 };
 
-struct Number : Object {
-    explicit Number(double nvalue) : Object{Type::NUMBER}, value{nvalue} {}
+struct Number : Element {
+    explicit Number(double nvalue) : Element{Type::NUMBER}, value{nvalue} {}
     double value;
 };
 
+// Получаем некоторый токен мат. выражения в виде строки и формируем из него элемент в одном из стеков
 static void handle_token(
         std::stringstream& token,
-        Type type, std::vector<std::shared_ptr<Object>>& operator_stack,
-        std::vector<std::shared_ptr<Object>>& stack) {
+        Type type, std::vector<std::shared_ptr<Element>>& operator_stack,
+        std::vector<std::shared_ptr<Element>>& stack) {
 
     using namespace std;
-    cout << token.str() << endl;
     if (type == Type::VARIABLE) {
         stack.push_back(make_shared<Variable>(token.str()));
     }
@@ -80,7 +79,7 @@ static void handle_token(
         string function_name = token.str();
         if (find(functions.begin(), functions.end(), function_name) == functions.end())
             throw ParsingException("Неизвестная функция: " + token.str() + "()");
-        operator_stack.push_back(make_shared<ObjectFunction>(function_name));
+        operator_stack.push_back(make_shared<ElementFunction>(function_name));
     }
     else if (type == Type::OPERATOR) {
         char opr_char = token.str()[0];
@@ -113,7 +112,7 @@ static void handle_token(
         operator_stack.push_back(opr);
     }
     else if (type == Type::PAREN_LEFT) {
-        operator_stack.push_back(make_shared<Object>(Type::PAREN_LEFT));
+        operator_stack.push_back(make_shared<Element>(Type::PAREN_LEFT));
     }
     else if (type == Type::PAREN_RIGHT) {
         if (!operator_stack.empty()) {
@@ -141,7 +140,7 @@ public:
         // Shunting-yard algorithm
         // TODO: Оптимизировать код если возможно
 
-        vector<shared_ptr<Object>> operator_stack;
+        vector<shared_ptr<Element>> operator_stack;
 
         // Текущий токен
         Type token_type = Type::NOTHING;
@@ -182,7 +181,8 @@ public:
             else {
                 ostringstream information;
                 information << input << endl;
-                information << setw(static_cast<int>(iterator - input.begin())) << "^";
+                information << setw(static_cast<int>(iterator - input.begin())) << "^" << endl;
+                information << "Неизвестный символ";
                 throw ParsingException{information.str()};
             }
 
@@ -198,31 +198,30 @@ public:
         // Не забываем обработать последний токен
         handle_token(token, token_type, operator_stack, stack_);
 
+        // Перемещаем все оставшиеся элементы из стека операторов в общий стек
         for (const auto& element : operator_stack)
             stack_.push_back(element);
-
-        cout << "== STACK ==" << endl;
-        for (const auto& element : stack_) {
-            if (element->type == Type::VARIABLE) cout << "VARIABLE" << endl;
-            else if (element->type == Type::NUMBER) cout << "NUMBER" << endl;
-            else if (element->type == Type::FUNCTION) cout << "FUNCTION" << endl;
-            else if (element->type == Type::OPERATOR) cout << "OPERATOR" << endl;
-        }
     }
 
+    double Run() const {
+        // Подсчитывает значение функции
+        return 0;
+    }
+
+    const std::map<std::string, double>& GetVariable() { return variables_; };
 private:
-
-    std::map<std::string, double> variables_{
-        {"pi",3.14}
-    };
-
-    std::vector<std::shared_ptr<Object>> stack_;
+    std::map<std::string, double> variables_{ {"pi",3.14} };
+    std::vector<std::shared_ptr<Element>> stack_;
 };
 
 void Command_CalcFunction::Handle(std::istream& input, std::ostream& output) {
     using namespace std;
     string function_string;
     output << "Функция: ";
+    // Если до этого использовалась cin >> string, то следующий после getline() будет всегда
+    // принимать пустую строку. Поэтому, getline() используется два раза. Первый getline() просто присвоит
+    // function_string пустую строку, а следующий будет непосредственно ждать ввод с клавиатуры
+    getline(input, function_string);
     getline(input, function_string);
 
     try {
