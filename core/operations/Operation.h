@@ -1,12 +1,10 @@
-//
-// Created by tsukuto on 18.03.19.
-//
-
 #ifndef CALC_FUNCTION_H
 #define CALC_FUNCTION_H
 
 #include <iostream>
 #include <exception>
+#include <memory>
+#include "Result.h"
 
 namespace Calc {
 
@@ -19,11 +17,11 @@ namespace Calc {
     // Некоторая операция, которую можно выполнить на плафторме
     class Operation {
     public:
-        virtual void Calculate(RuntimePlatform &platform, std::ostream &output) {
+        virtual std::unique_ptr<Result> Calculate(RuntimePlatform &platform) {
             throw PlatformNotSupported();
         };
 
-        virtual void Calculate(CPUPlatform& platform, std::ostream& output) {
+        virtual std::unique_ptr<Result> Calculate(CPUPlatform& platform) {
             throw PlatformNotSupported();
         }
 

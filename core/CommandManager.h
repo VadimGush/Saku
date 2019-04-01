@@ -8,8 +8,6 @@
 #include "commands/Command.h"
 #include "commands/Command_Help.h"
 #include "commands/Command_KernelInfo.h"
-#include "commands/Command_Pow.h"
-#include "commands/Command_Settings.h"
 #include "commands/Command_CalcFunction.h"
 #include <map>
 #include <string>
@@ -34,10 +32,7 @@ namespace Calc {
 
         const std::map<std::string, std::shared_ptr<Command>> commands_ = {
                 {"help", std::make_shared<Command_Help>()},
-                {"kernel", std::make_shared<Command_KernelInfo>()},
-                {"pow", std::make_shared<Command_Pow>()},
-                {"settings", std::make_shared<Command_Settings>()},
-                {"calc_function", std::make_shared<Command_CalcFunction>()}
+                {"kernel", std::make_shared<Command_KernelInfo>()}
         };
 
         static CommandManager* instance_;

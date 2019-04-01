@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 26.03.19.
-//
-
 #ifndef SAKU_OPERATION_INTERGRAL_H
 #define SAKU_OPERATION_INTERGRAL_H
 
@@ -14,11 +10,11 @@ namespace Calc {
 
     class Operation_Integral : public Operation {
     public:
-        Operation_Integral(std::shared_ptr<function_type> function, double a, double b);
+        Operation_Integral(function_type& function, double a, double b);
 
-        void Calculate(RuntimePlatform&, std::ostream&) override;
+        std::unique_ptr<Result> Calculate(RuntimePlatform&) override;
     private:
-        std::shared_ptr<function_type> function_;
+        function_type& function_;
         std::pair<double, double> range_;
         const int n_ = 1000;
     };

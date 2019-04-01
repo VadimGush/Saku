@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 19.03.19.
-//
-
 #ifndef SAKU_COMMAND_CALCFUNCTION_H
 #define SAKU_COMMAND_CALCFUNCTION_H
 
@@ -13,7 +9,7 @@ namespace Calc {
     public:
         Command_CalcFunction() : Command("вычисление значения заданной функции") {}
 
-        void Handle(std::istream&, std::ostream&) override;
+        void Run(std::ostream&) override;
     };
 }
 

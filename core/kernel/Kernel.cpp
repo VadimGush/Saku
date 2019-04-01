@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 18.03.19.
-//
-
 #include "Kernel.h"
 #include "RuntimePlatform.h"
 #include "CPUPlatform.h"

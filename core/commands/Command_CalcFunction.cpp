@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 19.03.19.
-//
-
 #include "Command_CalcFunction.h"
 #include <sstream>
 #include <vector>
@@ -214,14 +210,11 @@ private:
     std::vector<std::shared_ptr<Element>> stack_;
 };
 
-void Command_CalcFunction::Handle(std::istream& input, std::ostream& output) {
+/*
+void Command_CalcFunction::Run() {
     using namespace std;
     string function_string;
     output << "Функция: ";
-    // Если до этого использовалась cin >> string, то следующий после getline() будет всегда
-    // принимать пустую строку. Поэтому, getline() используется два раза. Первый getline() просто присвоит
-    // function_string пустую строку, а следующий будет непосредственно ждать ввод с клавиатуры
-    getline(input, function_string);
     getline(input, function_string);
 
     try {
@@ -231,3 +224,4 @@ void Command_CalcFunction::Handle(std::istream& input, std::ostream& output) {
         output << exception.what() << endl;
     }
 }
+ */

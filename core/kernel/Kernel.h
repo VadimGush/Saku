@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 18.03.19.
-//
-
 #ifndef CALC_KERNEL_H
 #define CALC_KERNEL_H
 

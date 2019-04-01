@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 15.03.19.
-//
-
 #ifndef CALC_COMMAND_H
 #define CALC_COMMAND_H
 
@@ -15,7 +11,7 @@ namespace Calc {
 
         Command(const Command&) =delete;
 
-        virtual void Handle(std::istream &input, std::ostream &output) = 0;
+        virtual void Run(std::ostream& output) = 0;
         const std::string& GetDescription() const;
 
         virtual ~Command() = default;

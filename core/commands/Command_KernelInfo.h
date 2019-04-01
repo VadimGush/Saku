@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 18.03.19.
-//
-
 #ifndef CALC_COMMAND_KERNELINFO_H
 #define CALC_COMMAND_KERNELINFO_H
 
@@ -13,7 +9,7 @@ namespace Calc {
     public:
         Command_KernelInfo() : Command("информация о ядре (список платформ)") {}
 
-        void Handle(std::istream& input, std::ostream& output) override;
+        void Run(std::ostream& output) override;
     };
 }
 

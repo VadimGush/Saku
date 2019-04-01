@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 18.03.19.
-//
-
 #ifndef CALC_RUNTIMEPLATFORM_H
 #define CALC_RUNTIMEPLATFORM_H
 
@@ -17,7 +13,9 @@ namespace Calc {
     public:
         RuntimePlatform() : Platform("Runtime Platform") {}
 
-        void Handle(Operation &function, std::ostream &output) override;
+        void Handle(Operation &operation) override {
+            operation.Calculate(*this);
+        }
     };
 }
 

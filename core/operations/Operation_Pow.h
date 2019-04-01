@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 18.03.19.
-//
-
 #ifndef CALC_FUNCTION_POW_H
 #define CALC_FUNCTION_POW_H
 
@@ -14,7 +10,7 @@ namespace Calc {
 
         Operation_Pow(double base, double power);
 
-        void Calculate(RuntimePlatform& platform, std::ostream& output) override;
+        std::unique_ptr<Result> Calculate(RuntimePlatform& platform) override;
 
     private:
         double base_;

@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 15.03.19.
-//
-
 #ifndef CALC_COMMAND_HELP_H
 #define CALC_COMMAND_HELP_H
 
@@ -12,7 +8,7 @@ namespace Calc {
     public:
         Command_Help() : Command("вывод справки") {}
 
-        void Handle(std::istream& input, std::ostream& output) override;
+        void Run(std::ostream&) override;
     };
 }
 

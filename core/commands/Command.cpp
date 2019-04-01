@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 15.03.19.
-//
-
 #include "Command.h"
 using namespace Calc;
 

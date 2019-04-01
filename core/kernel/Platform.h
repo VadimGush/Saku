@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 18.03.19.
-//
-
 #ifndef CALC_PLATFORM_H
 #define CALC_PLATFORM_H
 
@@ -16,7 +12,7 @@ namespace Calc {
     class Platform {
     public:
         // Запуск функции (операции) на платформе
-        virtual void Handle(Operation &function, std::ostream &output) =0;
+        virtual void Handle(Operation&) =0;
 
         // Наименование платформы
         const std::string& GetName() const { return name_; }
