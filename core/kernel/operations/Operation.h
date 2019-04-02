@@ -4,7 +4,6 @@
 #include <iostream>
 #include <exception>
 #include <memory>
-#include "Result.h"
 
 namespace Calc {
 

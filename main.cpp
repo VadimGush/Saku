@@ -2,27 +2,10 @@
 #include <algorithm>
 #include <sstream>
 #include "configure.h"
-#include "core/CommandManager.h"
+#include "core/commands/CommandManager.h"
+#include "core/kernel/objects/Object.h"
+#include "Parser.h"
 using namespace std;
-
-// Удаляет пробелы везде, но не внутри кавычек
-void remove_spaces(string& input) {
-    bool quotation = false;
-    input.erase(remove_if(input.begin(), input.end(), [&](auto symbol){
-        if (symbol == '\"') quotation = (!quotation);
-        return quotation? false : symbol == ' ';
-    }), input.end());
-}
-
-// Является ли символ частью допустимого имени переменной или функции
-bool isvar(char symbol) { return isalpha(symbol) || symbol == '_'; }
-
-// Парсим пользовательский ввод
-template <class Iterator>
-void parse(Iterator begin, Iterator end) {
-    // Получаем первый токен
-    auto first_token = find_if(begin, end, [](auto symbol){ return !isvar(symbol); });
-}
 
 // Форматированный ввод строки
 istream& getln(istream& input, string& command) {
@@ -39,44 +22,65 @@ int main() {
 
     for (string command; getln(cin, command);) {
 
-        remove_spaces(command);
+        Calc::remove_spaces(command);
         if (command.empty()) continue;
         if (command == "exit") break;
 
         // Получаем итератор на конец первого токена (имя функции или переменной)
-        auto first_token = find_if(command.begin(), command.end(), [](auto symbol) { return !isvar(symbol); });
+        auto first_token = find_if(command.begin(), command.end(), [](auto symbol) { return !Calc::isvar(symbol); });
 
         // Если этот токен это вся строка
         if (first_token == command.end()) {
-            // Значит пользователь хочет выполнить команду или вывести информацию о переменной
+
             try {
+                // Либо ищем команду и выполняем её
                 auto cmd = manager->GetCommand(command);
                 cmd->Run(cout);
             } catch (out_of_range &) {
-                // Поиск перменной
 
-                // Вывод информации о переменной
+                // Либо выводим информацию о переменной
+                try {
+                    auto var = kernel->GetVariable(command);
+                    cout << var << endl;
+                } catch (out_of_range&) {
+                    cout << "Переменная " << command << " не найдена" << endl;
+                }
 
-                cout << "Команда/переменная не найдена" << endl;
             }
         } else {
-            auto next_symbol = *(first_token);
+            auto next_symbol = *first_token;
 
-            if (next_symbol == '=') {
-                // Присваение
+            try {
+                if (next_symbol == '=') {
 
-                // Создаём и получаем указатель на переменную
+                    // Не допускаем, чтобы пользователь создал переменную совпадающую с именем
+                    // одной из достпуных комманд
+                    string variable_name(command.begin(), first_token);
+                    if (manager->GetCommandMap().count(variable_name) != 0) {
+                        cout << "Ошибка: имя переменной совпадает с командой" << endl;
+                        cout << "    " << variable_name << " - " << manager->GetCommand(variable_name)->GetDescription() << endl;
+                        continue;
+                    }
 
-                // Вызываем функцию
+                    // Парсим выражение слева от знака равно
+                    auto var = Calc::parse(first_token+1, command.end());
+                    // Вставляем новое значение в переменную
+                    if (var != nullptr) kernel->AssignVariable(string(command.begin(), first_token), var);
 
-            } else if (next_symbol == '(') {
-                // Заводим временную переменную
+                } else if (next_symbol == '(' || next_symbol == ',' || next_symbol == '\"') {
 
-                // Вызов функции
+                    // Парсим выражение
+                    auto temp = Calc::parse(command.begin(), command.end());
+                    // Если у выражения есть результат, то выводим его
+                    if (temp != nullptr) cout << temp << endl;
 
-                // Выводим информацию о переменной
-            } else
-                cout << "Неизвестный символ: " << next_symbol << endl;
+                } else
+                    cout << "Неизвестный символ: " << next_symbol << endl;
+            } catch (exception& exception) {
+                // Здесь мы можем отловить либо ParserException если в выражении ошибка либо
+                // PlatformNotSupported если одна из функций не поддерживается на текущей платформе
+                cout << exception.what() << endl;
+            }
         }
     }
 

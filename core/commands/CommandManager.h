@@ -5,10 +5,10 @@
 #ifndef CALC_COMMANDMANAGER_H
 #define CALC_COMMANDMANAGER_H
 
-#include "commands/Command.h"
-#include "commands/Command_Help.h"
-#include "commands/Command_KernelInfo.h"
-#include "commands/Command_CalcFunction.h"
+#include "Command.h"
+#include "Command_Help.h"
+#include "Command_KernelInfo.h"
+#include "Command_CalcFunction.h"
 #include <map>
 #include <string>
 #include <memory>

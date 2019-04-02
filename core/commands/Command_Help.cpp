@@ -1,5 +1,5 @@
 #include "Command_Help.h"
-#include "../CommandManager.h"
+#include "CommandManager.h"
 #include <iomanip>
 
 using namespace Calc;

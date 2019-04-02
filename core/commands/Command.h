@@ -4,6 +4,11 @@
 #include <iostream>
 
 namespace Calc {
+
+    // Command - оболочка для команды.
+    // Команда не выполняет каких-либо вычислений, а используется только для вывода полезной информации.
+    // Каждая команда содержит описание, которое выводится при вводе help в терминале.
+    // Все команды регистрируются в классе CommandManager
     class Command {
     public:
         Command();
@@ -18,6 +23,7 @@ namespace Calc {
     private:
         const std::string description_;
     };
+
 }
 
 
