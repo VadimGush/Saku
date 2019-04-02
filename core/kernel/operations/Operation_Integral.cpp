@@ -13,7 +13,7 @@ std::shared_ptr<Calc::Object> Operation_Integral::Calculate(RuntimePlatform&) {
         xi = range_.first + h*i;
         sum += function_(xi) + 4*function_(xi - h/2) + function_(range_.first + (h*(i-1)));
     }
-    return nullptr;
+    return std::make_shared<Calc::NumberObject<double>>(sum);
 }
 
 

@@ -54,6 +54,8 @@ namespace Calc {
 
     class VectorObject : public Object {
     public:
+        VectorObject() : Object(ObjectType::VECTOR) {}
+
         VectorObject(std::initializer_list<std::shared_ptr<Calc::Object>> list) : Object(ObjectType::VECTOR) {
             for (const auto& element : list) {
                 objects_.push_back(element);
@@ -73,7 +75,7 @@ namespace Calc {
             bool first = true;
             for (const auto& element : objects_) {
                 if (!first) output << ", ";
-                output << element;
+                element->operator<<(output);
                 first = false;
             }
             return output << " ]";

@@ -22,6 +22,18 @@ int main() {
     auto kernel = Calc::Kernel::Instance();
     auto manager = Calc::CommandManager::Instance();
 
+    kernel->AssignVariable("pi", make_shared<Calc::NumberObject<double>>(3.14));
+    kernel->AssignVariable("author", make_shared<Calc::StringObject>("Vadim Gush"));
+    kernel->AssignVariable("text", make_shared<Calc::FileObject>("Makefile"));
+    kernel->AssignVariable("arg", make_shared<Calc::ValueObject<double>>("x", 3.14));
+
+    auto vec = make_shared<Calc::VectorObject>();
+    vec->PutObject(make_shared<Calc::StringObject>("one"));
+    vec->PutObject(make_shared<Calc::StringObject>("two"));
+    vec->PutObject(make_shared<Calc::StringObject>("three"));
+    vec->PutObject(make_shared<Calc::ValueObject<double>>("pi", 3.14));
+    kernel->AssignVariable("vec", vec);
+
     for (string command; getln(cin, command);) {
 
         Calc::remove_spaces(command);
@@ -43,7 +55,7 @@ int main() {
                 // Либо выводим информацию о переменной
                 try {
                     auto var = kernel->GetVariable(command);
-                    cout << var << endl;
+                    var->operator<<(cout) << endl;
                 } catch (out_of_range&) {
                     cout << "Переменная " << command << " не найдена" << endl;
                 }
@@ -74,7 +86,7 @@ int main() {
                     // Парсим выражение
                     auto temp = Calc::parse(command.begin(), command.end());
                     // Если у выражения есть результат, то выводим его
-                    if (temp != nullptr) cout << temp << endl;
+                    if (temp != nullptr) temp->operator<<(cout) << endl;
 
                 } else
                     cout << "Неизвестный символ: " << next_symbol << endl;

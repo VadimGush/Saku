@@ -30,6 +30,10 @@ namespace Calc {
             return variables_.at(name);
         }
 
+        const std::map<std::string, std::shared_ptr<Calc::Object>>& GetVariables() const {
+            return variables_;
+        }
+
         // Устанавливает новое значение переменной если таковая имеется, если нет, то создаёт новую
         // с переданным значением
         void AssignVariable(const std::string& name, std::shared_ptr<Calc::Object> object) {
