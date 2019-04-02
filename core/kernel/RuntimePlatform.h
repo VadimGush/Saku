@@ -2,7 +2,7 @@
 #define CALC_RUNTIMEPLATFORM_H
 
 #include "Platform.h"
-#include "../operations/Operation.h"
+#include "operations/Operation.h"
 #include <memory>
 #include <iostream>
 

@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <iostream>
-#include "../operations/Operation.h"
+#include "operations/Operation.h"
 
 namespace Calc {
 

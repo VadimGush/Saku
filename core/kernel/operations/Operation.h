@@ -4,6 +4,7 @@
 #include <iostream>
 #include <exception>
 #include <memory>
+#include "../objects/Object.h"
 
 namespace Calc {
 
@@ -11,16 +12,18 @@ namespace Calc {
     class CPUPlatform;
 
     // Если операция не поддерживает выполнение на текущей платформе
-    struct PlatformNotSupported : public std::exception {};
+    struct PlatformNotSupported : public std::exception {
+        const char * what() const noexcept override { return "функция не поддерживается на данной платформе"; }
+    };
 
     // Некоторая операция, которую можно выполнить на плафторме
     class Operation {
     public:
-        virtual std::unique_ptr<Result> Calculate(RuntimePlatform &platform) {
+        virtual std::shared_ptr<Calc::Object> Calculate(RuntimePlatform &platform) {
             throw PlatformNotSupported();
         };
 
-        virtual std::unique_ptr<Result> Calculate(CPUPlatform& platform) {
+        virtual std::shared_ptr<Calc::Object> Calculate(CPUPlatform& platform) {
             throw PlatformNotSupported();
         }
 

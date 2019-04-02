@@ -12,7 +12,7 @@ namespace Calc {
     public:
         Operation_Integral(function_type& function, double a, double b);
 
-        std::unique_ptr<Result> Calculate(RuntimePlatform&) override;
+        std::shared_ptr<Calc::Object> Calculate(RuntimePlatform&) override;
     private:
         function_type& function_;
         std::pair<double, double> range_;

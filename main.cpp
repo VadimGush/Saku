@@ -4,18 +4,20 @@
 #include "configure.h"
 #include "core/commands/CommandManager.h"
 #include "core/kernel/objects/Object.h"
+#include "core/kernel/objects/FileObject.h"
 #include "Parser.h"
 using namespace std;
 
 // Форматированный ввод строки
 istream& getln(istream& input, string& command) {
-    cout << ">>> "; return getline(cin, command);
+    cout << "\e[34;1m" << ">>> " << "\e[0m";
+    return getline(cin, command);
 }
 
 int main() {
 
-    cout << endl << " Saku - программа для параллельных вычислений" << endl;
-    cout <<" Версия: " << VERSION << endl << endl;
+    cout << endl << " \e[1m\e[35;1mSaku\e[0m - программа для параллельных вычислений" << endl;
+    cout << " \e[1mВерсия:\e[0m " << VERSION << endl << endl;
 
     auto kernel = Calc::Kernel::Instance();
     auto manager = Calc::CommandManager::Instance();
@@ -79,7 +81,7 @@ int main() {
             } catch (exception& exception) {
                 // Здесь мы можем отловить либо ParserException если в выражении ошибка либо
                 // PlatformNotSupported если одна из функций не поддерживается на текущей платформе
-                cout << exception.what() << endl;
+                cout << "Ошибка: " << exception.what() << endl;
             }
         }
     }

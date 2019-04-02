@@ -11,7 +11,9 @@ namespace Calc {
 
     class ParserException : public std::exception {
     public:
-        ParserException(std::string message) : what_(std::move(message)) {}
+        explicit ParserException(std::string message) : what_(std::move(message)) {}
+
+        const char* what() const noexcept override { return what_.c_str(); }
     private:
         std::string what_;
     };

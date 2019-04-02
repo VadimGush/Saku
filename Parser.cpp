@@ -22,7 +22,7 @@ bool Calc::isvar(char symbol) noexcept { return isalpha(symbol) || symbol == '_'
 // Парсим выражение
 shared_ptr<Calc::Object> Calc::parse(string::iterator begin, string::iterator end) {
 
-    if (begin == end) throw ParserException("Пустое выражение");
+    if (begin == end) throw ParserException("пустое выражение");
 
     // Создаём локальную временную переменную
     shared_ptr<Calc::Object> var;
