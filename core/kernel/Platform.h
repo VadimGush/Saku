@@ -12,10 +12,10 @@ namespace Calc {
     class Platform {
     public:
         // Запуск функции (операции) на платформе
-        virtual void Handle(Operation&) =0;
+        virtual void Handle(Operation &) = 0;
 
         // Наименование платформы
-        const std::string& GetName() const { return name_; }
+        const std::string &GetName() const { return name_; }
 
     protected:
         explicit Platform(std::string name) : name_(std::move(name)) {}

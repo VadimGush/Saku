@@ -10,7 +10,7 @@ namespace Calc {
 
         Operation_Pow(double base, double power);
 
-        std::unique_ptr<Calc::Object> Calculate(RuntimePlatform& platform) override;
+        std::unique_ptr<Calc::Object> Calculate(RuntimePlatform &platform) override;
 
     private:
         double base_;

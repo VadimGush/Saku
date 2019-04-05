@@ -10,26 +10,27 @@
 using namespace std;
 
 // Удаляет пробелы везде, но не внутри кавычек
-void Calc::remove_spaces(string& input) noexcept {
+void Calc::remove_spaces(string &input) noexcept {
     bool quotation = false;
-    input.erase(remove_if(input.begin(), input.end(), [&](auto symbol){
+    input.erase(remove_if(input.begin(), input.end(), [&](auto symbol) {
         if (symbol == '\"') quotation = (!quotation);
-        return quotation? false : symbol == ' ';
+        return quotation ? false : symbol == ' ';
     }), input.end());
 }
 
 bool is_valid_symbol(char symbol) noexcept {
     static array<char, 10> valid_symbols{'\"', '(', ')', ',', '.', '_', '='};
-    return isalpha(symbol) || isdigit(symbol) || find(valid_symbols.cbegin(), valid_symbols.cend(), symbol) != valid_symbols.end();
+    return isalpha(symbol) || isdigit(symbol) ||
+           find(valid_symbols.cbegin(), valid_symbols.cend(), symbol) != valid_symbols.end();
 }
 
 // Проверяет, что все символы в выражении являются допустимыми
 // Если нет, то выкидывает Calc::ParserException
-void Calc::is_valid(const string& input) {
+void Calc::is_valid(const string &input) {
     int braces = 0;
     for (auto iterator = input.cbegin(); iterator < input.cend(); iterator++) {
         if (*iterator == '\"') {
-            iterator = find(iterator+1, input.cend(), '\"');
+            iterator = find(iterator + 1, input.cend(), '\"');
             if (iterator == input.cend()) throw Calc::ParserException("незакрытая строка");
         } else {
             if (!is_valid_symbol(*iterator)) throw Calc::ParserException("неизвестный символ");
@@ -43,15 +44,15 @@ void Calc::is_valid(const string& input) {
     if (braces > 0) throw Calc::ParserException("незакрытая скобка");
 }
 
-template <typename Iterator>
+template<typename Iterator>
 Iterator find_last_brace(Iterator begin, Iterator end) {
     int braces = 0;
     bool str = false;
-    auto last_braces = find_if(begin, end, [&](auto s){
+    auto last_braces = find_if(begin, end, [&](auto s) {
         if (s == '\"') str = !str;
 
-        if (!str && s == '(') braces ++;
-        if (!str && s == ')') braces --;
+        if (!str && s == '(') braces++;
+        if (!str && s == ')') braces--;
 
         return s == ')' && braces == -1;
     });
@@ -84,30 +85,30 @@ shared_ptr<Calc::Object> Calc::parse(string::iterator begin, string::iterator en
         string debug(token, end);
 
         // Пытаемся найти конец имени функции или переменной
-        auto var_end = find_if(token, end, [](auto symbol){ return !isvar(symbol);});
+        auto var_end = find_if(token, end, [](auto symbol) { return !isvar(symbol); });
 
         if (var_end == token) {
             // Если не нашли имени, значит имеем дело с литералом
 
             // Если это строка
-            if (*token== '\"') {
-                auto end_of_string = find(token+1, end, '\"');
-                var = make_shared<Calc::StringObject>(string(token+1, end_of_string));
-                token = end_of_string+1;
+            if (*token == '\"') {
+                auto end_of_string = find(token + 1, end, '\"');
+                var = make_shared<Calc::StringObject>(string(token + 1, end_of_string));
+                token = end_of_string + 1;
             }
 
             // Если это число
-            if (isdigit(*token) || *token== '.') {
-                auto end_of_digit = find_if(token, end, [](auto s){ return !isdigit(s) && s != '.'; });
-                var = make_shared<Calc::NumberObject<double>>(stod(string(token,end_of_digit)));
+            if (isdigit(*token) || *token == '.') {
+                auto end_of_digit = find_if(token, end, [](auto s) { return !isdigit(s) && s != '.'; });
+                var = make_shared<Calc::NumberObject<double>>(stod(string(token, end_of_digit)));
                 token = end_of_digit;
             }
 
             // Если это скобки
-            if (*token== '(') {
-                auto last_braces = find_last_brace(token+1, end);
-                var = parse(token+1, last_braces);
-                token = last_braces+1;
+            if (*token == '(') {
+                auto last_braces = find_last_brace(token + 1, end);
+                var = parse(token + 1, last_braces);
+                token = last_braces + 1;
             }
 
         } else {
@@ -117,7 +118,7 @@ shared_ptr<Calc::Object> Calc::parse(string::iterator begin, string::iterator en
                 // Просто переменная
                 var = kernel->GetVariable(string(begin, end));
 
-            } else if (var_end+1 == end) {
+            } else if (var_end + 1 == end) {
                 // Если после имени стоит символ, то скорее всего это либа незакрытая скобка
                 // либо другой символ не на своём месте
 

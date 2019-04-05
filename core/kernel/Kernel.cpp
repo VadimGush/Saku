@@ -1,7 +1,7 @@
 #include "Kernel.h"
 #include "RuntimePlatform.h"
 #include "CPUPlatform.h"
-#include <iostream>
+
 using namespace Calc;
 
 std::shared_ptr<Kernel> Kernel::instance_ = nullptr;
@@ -12,7 +12,7 @@ std::shared_ptr<Kernel> Kernel::Instance() {
     return instance_;
 }
 
-static void init_opencl(std::vector<std::shared_ptr<Platform>>& platforms_) {
+static void init_opencl(std::vector<std::shared_ptr<Platform>> &platforms_) {
     std::vector<cl::Platform> platforms;
     cl::Platform::get(&platforms);
     cl::Device device;
@@ -21,8 +21,9 @@ static void init_opencl(std::vector<std::shared_ptr<Platform>>& platforms_) {
         if (p.getInfo<CL_PLATFORM_VERSION>().find("OpenCL 2.") != std::string::npos) {
             std::vector<cl::Device> devices;
             p.getDevices(CL_DEVICE_TYPE_CPU, &devices);
-            for (auto& d : devices)
-                platforms_.push_back(std::make_shared<Calc::CPUPlatform>("OpenCL 2.0: " + d.getInfo<CL_DEVICE_NAME>(), d));
+            for (auto &d : devices)
+                platforms_.push_back(
+                        std::make_shared<Calc::CPUPlatform>("OpenCL 2.0: " + d.getInfo<CL_DEVICE_NAME>(), d));
         }
     }
 }

@@ -23,18 +23,18 @@ namespace Calc {
         static std::shared_ptr<CommandManager> Instance();
 
         // Получить команду по её имени
-        std::shared_ptr<Command> GetCommand(const std::string& command) const;
+        std::shared_ptr<Command> GetCommand(const std::string &command) const;
 
         // Полный список команд
-        const std::map<std::string, std::shared_ptr<Command>>& GetCommandMap() const;
+        const std::map<std::string, std::shared_ptr<Command>> &GetCommandMap() const;
 
     private:
 
-        CommandManager() =default;
+        CommandManager() = default;
 
         const std::map<std::string, std::shared_ptr<Command>> commands_ = {
-                {"help", std::make_shared<Command_Help>()},
-                {"kernel", std::make_shared<Command_KernelInfo>()},
+                {"help",      std::make_shared<Command_Help>()},
+                {"kernel",    std::make_shared<Command_KernelInfo>()},
                 {"variables", std::make_shared<Command_Variables>()}
         };
 

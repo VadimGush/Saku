@@ -13,7 +13,8 @@ namespace Calc {
     public:
         explicit ParserException(std::string message) : what_(std::move(message)) {}
 
-        const char* what() const noexcept override { return what_.c_str(); }
+        const char *what() const noexcept override { return what_.c_str(); }
+
     private:
         std::string what_;
     };
@@ -25,10 +26,10 @@ namespace Calc {
     bool isvar(char) noexcept;
 
     // Проверяет, являются ли символы выражения допустимыми
-    void is_valid(const std::string& input);
+    void is_valid(const std::string &input);
 
     // Парсим выражение
-    std::shared_ptr <Calc::Object> parse(std::string::iterator begin, std::string::iterator end);
+    std::shared_ptr<Calc::Object> parse(std::string::iterator begin, std::string::iterator end);
 
 }
 

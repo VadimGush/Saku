@@ -9,7 +9,7 @@ namespace Calc {
     public:
         Command_CalcFunction() : Command("вычисление значения заданной функции") {}
 
-        void Run(std::ostream&) override;
+        void Run(std::ostream &) override;
     };
 }
 

@@ -9,7 +9,7 @@ namespace Calc {
     public:
         Command_KernelInfo() : Command("информация о ядре (список платформ)") {}
 
-        void Run(std::ostream& output) override;
+        void Run(std::ostream &output) override;
     };
 }
 

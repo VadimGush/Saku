@@ -3,13 +3,13 @@
 #include <sstream>
 #include "configure.h"
 #include "core/commands/CommandManager.h"
-#include "core/kernel/objects/Object.h"
 #include "core/kernel/objects/FileObject.h"
 #include "Parser.h"
+
 using namespace std;
 
 // Форматированный ввод строки
-istream& getln(istream& input, string& command) {
+istream &getln(istream &input, string &command) {
     cout << "\e[34;1m" << ">>> " << "\e[0m";
     return getline(cin, command);
 }
@@ -37,7 +37,7 @@ int main() {
         Calc::remove_spaces(command);
         try {
             Calc::is_valid(command);
-        } catch (const std::exception& e) {
+        } catch (const std::exception &e) {
             cout << "Недопустимый ввод: " << e.what() << endl;
             continue;
         }
@@ -60,7 +60,7 @@ int main() {
                 try {
                     auto var = kernel->GetVariable(command);
                     var->operator<<(cout) << endl;
-                } catch (out_of_range&) {
+                } catch (out_of_range &) {
                     cout << "Переменная " << command << " не найдена" << endl;
                 }
 
@@ -76,12 +76,13 @@ int main() {
                     string variable_name(command.begin(), first_token);
                     if (manager->GetCommandMap().count(variable_name) != 0 || variable_name == "exit") {
                         cout << "Ошибка: имя переменной совпадает с командой" << endl;
-                        cout << "    " << variable_name << " - " << manager->GetCommand(variable_name)->GetDescription() << endl;
+                        cout << "    " << variable_name << " - " << manager->GetCommand(variable_name)->GetDescription()
+                             << endl;
                         continue;
                     }
 
                     // Парсим выражение слева от знака равно
-                    auto var = Calc::parse(first_token+1, command.end());
+                    auto var = Calc::parse(first_token + 1, command.end());
                     // Вставляем новое значение в переменную
                     if (var != nullptr) kernel->AssignVariable(string(command.begin(), first_token), var);
 
@@ -96,7 +97,7 @@ int main() {
 
                 } else
                     cout << "Неизвестный символ: " << next_symbol << endl;
-            } catch (exception& exception) {
+            } catch (exception &exception) {
                 // Здесь мы можем отловить либо ParserException если в выражении ошибка либо
                 // PlatformNotSupported если одна из функций не поддерживается на текущей платформе
                 cout << "Ошибка: " << exception.what() << endl;

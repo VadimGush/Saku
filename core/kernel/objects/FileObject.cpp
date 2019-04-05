@@ -4,10 +4,11 @@
 
 #include "FileObject.h"
 #include <sstream>
+
 using namespace Calc;
 
-constexpr std::array<unsigned char, 8> png_format {0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a};
-constexpr std::array<unsigned char, 3> jpg_format {0xff, 0xd8, 0xff};
+constexpr std::array<unsigned char, 8> png_format{0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a};
+constexpr std::array<unsigned char, 3> jpg_format{0xff, 0xd8, 0xff};
 
 FileObject::FileObject(std::string path) : Object(ObjectType::FILE), path_(std::move(path)) {
     // Первое правило загрузки файлов: никогда не верь расширениям на конце имени файла!

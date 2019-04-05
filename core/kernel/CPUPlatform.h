@@ -8,13 +8,14 @@ namespace Calc {
     class CPUPlatform : public Platform {
     public:
         CPUPlatform(std::string name, cl::Device device)
-        : Platform(std::move(name)), device_(std::move(device)) {}
+                : Platform(std::move(name)), device_(std::move(device)) {}
 
-        void Handle(Operation& operation) override {
+        void Handle(Operation &operation) override {
             operation.Calculate(*this);
         }
 
         cl::Device GetDevice() { return device_; }
+
     private:
         cl::Device device_;
     };

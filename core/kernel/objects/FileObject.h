@@ -15,7 +15,8 @@ namespace Calc {
     public:
         explicit FileNotFound(std::string what) : what_(std::move(what)) {}
 
-        const char* what() const noexcept override { return what_.c_str(); }
+        const char *what() const noexcept override { return what_.c_str(); }
+
     private:
         std::string what_;
     };
@@ -24,13 +25,14 @@ namespace Calc {
     public:
         explicit FileObject(std::string path);
 
-        const std::string& GetExtension() const { return extension_; }
+        const std::string &GetExtension() const { return extension_; }
 
-        const std::string& GetPath() const { return path_; }
+        const std::string &GetPath() const { return path_; }
 
-        std::ostream& operator<<(std::ostream& output) const override {
+        std::ostream &operator<<(std::ostream &output) const override {
             return output << extension_ << ":" << path_;
         }
+
     private:
         std::string path_;
         std::string extension_;

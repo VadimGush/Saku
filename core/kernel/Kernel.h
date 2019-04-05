@@ -17,7 +17,7 @@ namespace Calc {
         static std::shared_ptr<Kernel> Instance();
 
         // Список платформ
-        const std::vector<std::shared_ptr<Platform>>& GetPlatforms() const { return platforms_; }
+        const std::vector<std::shared_ptr<Platform>> &GetPlatforms() const { return platforms_; }
 
         // Текущая платформа
         std::shared_ptr<Platform> GetPlatform() const { return current_platform_; }
@@ -26,23 +26,23 @@ namespace Calc {
         void SetPlatform(unsigned long id) { current_platform_ = platforms_.at(id); }
 
         // Получить переменную по её имени
-        std::shared_ptr<Calc::Object> GetVariable(const std::string& name) const {
+        std::shared_ptr<Calc::Object> GetVariable(const std::string &name) const {
             return variables_.at(name);
         }
 
-        const std::map<std::string, std::shared_ptr<Calc::Object>>& GetVariables() const {
+        const std::map<std::string, std::shared_ptr<Calc::Object>> &GetVariables() const {
             return variables_;
         }
 
         // Устанавливает новое значение переменной если таковая имеется, если нет, то создаёт новую
         // с переданным значением
-        void AssignVariable(const std::string& name, std::shared_ptr<Calc::Object> object) {
+        void AssignVariable(const std::string &name, std::shared_ptr<Calc::Object> object) {
             variables_.insert_or_assign(name, object);
         }
 
         // Удаление переменной
-        void RemoveVariable(const std::string& name) {
-             variables_.erase(name);
+        void RemoveVariable(const std::string &name) {
+            variables_.erase(name);
         }
 
     private:
@@ -54,7 +54,7 @@ namespace Calc {
         std::vector<std::shared_ptr<Platform>> platforms_;
 
         std::map<std::string, std::shared_ptr<Calc::Object>> variables_;
-        
+
         const std::map<std::string, std::shared_ptr<Operation>> operations_;
     };
 }

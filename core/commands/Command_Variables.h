@@ -12,7 +12,7 @@ namespace Calc {
     public:
         Command_Variables() : Command("список переменных") {}
 
-        void Run(std::ostream&) override;
+        void Run(std::ostream &) override;
     };
 }
 

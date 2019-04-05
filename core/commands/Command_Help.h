@@ -8,7 +8,7 @@ namespace Calc {
     public:
         Command_Help() : Command("вывод справки") {}
 
-        void Run(std::ostream&) override;
+        void Run(std::ostream &) override;
     };
 }
 
