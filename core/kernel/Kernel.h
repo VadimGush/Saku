@@ -55,7 +55,6 @@ namespace Calc {
 
         std::map<std::string, std::shared_ptr<Calc::Object>> variables_;
 
-        const std::map<std::string, std::shared_ptr<Operation>> operations_;
     };
 }
 

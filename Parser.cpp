@@ -1,7 +1,3 @@
-//
-// Created by tsukuto on 02.04.19.
-//
-
 #include <sstream>
 #include "Parser.h"
 #include "algorithm"
@@ -65,6 +61,8 @@ bool Calc::isvar(char symbol) noexcept { return isalpha(symbol) || symbol == '_'
 // Парсим выражение
 shared_ptr<Calc::Object> Calc::parse(string::iterator begin, string::iterator end) {
 
+    // TODO: Перенести проверку допустимых символов сюда
+
     if (begin == end) return nullptr;
 
     auto kernel = Kernel::Instance();
@@ -100,7 +98,7 @@ shared_ptr<Calc::Object> Calc::parse(string::iterator begin, string::iterator en
             // Если это число
             if (isdigit(*token) || *token == '.') {
                 auto end_of_digit = find_if(token, end, [](auto s) { return !isdigit(s) && s != '.'; });
-                var = make_shared<Calc::NumberObject<double>>(stod(string(token, end_of_digit)));
+                var = make_shared<Calc::NumberObject>(stod(string(token, end_of_digit)));
                 token = end_of_digit;
             }
 

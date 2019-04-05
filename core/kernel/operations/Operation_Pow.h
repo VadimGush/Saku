@@ -8,7 +8,7 @@ namespace Calc {
     class Operation_Pow : public Operation {
     public:
 
-        Operation_Pow(double base, double power);
+        void init(std::shared_ptr<Calc::Object> args) override;
 
         std::unique_ptr<Calc::Object> Calculate(RuntimePlatform &platform) override;
 

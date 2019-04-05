@@ -26,23 +26,20 @@ namespace Calc {
         ObjectType type_;
     };
 
-    template<
-            typename T,
-            typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
     class NumberObject : public Object {
     public:
-        explicit NumberObject(T number) : Object(ObjectType::NUMBER), number_(number) {}
+        explicit NumberObject(double number) : Object(ObjectType::NUMBER), number_(number) {}
 
-        T GetValue() const noexcept { return number_; }
+        double GetValue() const noexcept { return number_; }
 
-        void PutValue(T value) noexcept { number_ = value; }
+        void PutValue(double value) noexcept { number_ = value; }
 
         std::ostream &operator<<(std::ostream &output) const override {
             return output << number_;
         }
 
     private:
-        T number_;
+        double number_;
     };
 
     class StringObject : public Object {
@@ -90,18 +87,15 @@ namespace Calc {
         std::vector<std::shared_ptr<Calc::Object>> objects_;
     };
 
-    template<
-            typename T,
-            typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
     class ValueObject : public Object {
     public:
-        ValueObject(std::string name, T value) : Object(ObjectType::VALUE), name_(std::move(name)), value_(value) {}
+        ValueObject(std::string name, double value) : Object(ObjectType::VALUE), name_(std::move(name)), value_(value) {}
 
         const std::string &GetName() const { return name_; }
 
-        T GetValue() const { return value_; }
+        double GetValue() const { return value_; }
 
-        void PutValue(T value) noexcept { value_ = value; }
+        void PutValue(double value) noexcept { value_ = value; }
 
         std::ostream &operator<<(std::ostream &output) const override {
             return output << "{ " << name_ << " : " << value_ << " }";
@@ -109,8 +103,17 @@ namespace Calc {
 
     private:
         std::string name_;
-        T value_;
+        double value_;
     };
+
+    struct InvalidArgument : public std::exception {};
+
+    template<typename T>
+    std::shared_ptr<T> downcast(std::shared_ptr<Object> arg, ObjectType type) {
+        if (arg->GetType() != type) {
+            return std::dynamic_pointer_cast<T>(arg);
+        } else throw InvalidArgument();
+    }
 
 }
 

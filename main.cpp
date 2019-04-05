@@ -22,10 +22,10 @@ int main() {
     auto kernel = Calc::Kernel::Instance();
     auto manager = Calc::CommandManager::Instance();
 
-    kernel->AssignVariable("pi", make_shared<Calc::NumberObject<double>>(3.14));
+    kernel->AssignVariable("pi", make_shared<Calc::NumberObject>(3.14));
     kernel->AssignVariable("author", make_shared<Calc::StringObject>("Vadim Gush"));
     kernel->AssignVariable("text", make_shared<Calc::FileObject>("Makefile"));
-    kernel->AssignVariable("arg", make_shared<Calc::ValueObject<double>>("x", 3.14));
+    kernel->AssignVariable("arg", make_shared<Calc::ValueObject>("x", 3.14));
 
     auto vec = make_shared<Calc::VectorObject>();
     kernel->AssignVariable("vec", vec);

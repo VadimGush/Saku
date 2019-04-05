@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(Saku VERSION 0.1.4)
+project(Saku VERSION 0.1.5)
 
 set(CMAKE_CXX_STANDARD 17)
 
