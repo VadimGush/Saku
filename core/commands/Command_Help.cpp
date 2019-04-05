@@ -10,7 +10,7 @@ void Print(std::ostream& output, const std::string& name, const std::string& des
 
 void Command_Help::Run(std::ostream& output) {
     output << "Список доступных команд: " << std::endl;
-    CommandManager* manager = CommandManager::Instance();
+    auto manager = CommandManager::Instance();
     for (const auto& cmd : manager->GetCommandMap()) {
         Print(output, cmd.first, cmd.second->GetDescription());
     }

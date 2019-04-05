@@ -19,11 +19,11 @@ namespace Calc {
     // Некоторая операция, которую можно выполнить на плафторме
     class Operation {
     public:
-        virtual std::shared_ptr<Calc::Object> Calculate(RuntimePlatform &platform) {
+        virtual std::unique_ptr<Calc::Object> Calculate(RuntimePlatform &platform) {
             throw PlatformNotSupported();
         };
 
-        virtual std::shared_ptr<Calc::Object> Calculate(CPUPlatform& platform) {
+        virtual std::unique_ptr<Calc::Object> Calculate(CPUPlatform& platform) {
             throw PlatformNotSupported();
         }
 

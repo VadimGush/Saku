@@ -4,7 +4,7 @@
 using namespace Calc;
 
 void Command_KernelInfo::Run(std::ostream& output) {
-    Kernel* kernel = Kernel::Instance();
+    auto kernel = Kernel::Instance();
 
     output << "Список доступных платформ:" << std::endl;
     int id = 0;

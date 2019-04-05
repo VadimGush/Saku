@@ -19,10 +19,13 @@ namespace Calc {
     };
 
     // Удаляет пробелы везде, но не внутри кавычек
-    void remove_spaces(std::string &);
+    void remove_spaces(std::string &) noexcept;
 
     // Является ли символ частью допустимого имени переменной или функции
     bool isvar(char) noexcept;
+
+    // Проверяет, являются ли символы выражения допустимыми
+    void is_valid(const std::string& input);
 
     // Парсим выражение
     std::shared_ptr <Calc::Object> parse(std::string::iterator begin, std::string::iterator end);

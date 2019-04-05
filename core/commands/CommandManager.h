@@ -16,10 +16,11 @@
 
 namespace Calc {
 
-    // Хранит в себе экземпляры всех доступных команд
+    // Хранит в себе экземпляры всех доступных команд.
+    // Позволяет получать доступ к списку команд для их вывода, автодополнения или поиска.
     class CommandManager {
     public:
-        static CommandManager* Instance();
+        static std::shared_ptr<CommandManager> Instance();
 
         // Получить команду по её имени
         std::shared_ptr<Command> GetCommand(const std::string& command) const;
@@ -37,7 +38,7 @@ namespace Calc {
                 {"variables", std::make_shared<Command_Variables>()}
         };
 
-        static CommandManager* instance_;
+        static std::shared_ptr<CommandManager> instance_;
     };
 }
 

@@ -6,11 +6,11 @@
 
 using namespace Calc;
 
-CommandManager* CommandManager::instance_ = nullptr;
+std::shared_ptr<CommandManager> CommandManager::instance_ = nullptr;
 
-CommandManager* CommandManager::Instance() {
+std::shared_ptr<CommandManager> CommandManager::Instance() {
     if (instance_ == nullptr)
-        instance_ = new CommandManager{};
+        instance_ = std::shared_ptr<CommandManager>(new CommandManager());
     return instance_;
 }
 

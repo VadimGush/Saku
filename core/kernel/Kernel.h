@@ -14,7 +14,7 @@ namespace Calc {
     class Kernel {
     public:
 
-        static Kernel* Instance();
+        static std::shared_ptr<Kernel> Instance();
 
         // Список платформ
         const std::vector<std::shared_ptr<Platform>>& GetPlatforms() const { return platforms_; }
@@ -48,7 +48,7 @@ namespace Calc {
     private:
         Kernel();
 
-        static Kernel* instance_;
+        static std::shared_ptr<Kernel> instance_;
 
         std::shared_ptr<Platform> current_platform_;
         std::vector<std::shared_ptr<Platform>> platforms_;

@@ -4,11 +4,11 @@
 #include <iostream>
 using namespace Calc;
 
-Kernel* Kernel::instance_ = nullptr;
+std::shared_ptr<Kernel> Kernel::instance_ = nullptr;
 
-Kernel* Kernel::Instance() {
+std::shared_ptr<Kernel> Kernel::Instance() {
     if (instance_ == nullptr)
-        instance_ = new Kernel();
+        instance_ = std::shared_ptr<Kernel>(new Kernel());
     return instance_;
 }
 

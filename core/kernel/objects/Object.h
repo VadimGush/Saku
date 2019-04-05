@@ -10,6 +10,8 @@
 namespace Calc {
     enum class ObjectType { NUMBER, STRING, VECTOR, VALUE, FILE};
 
+    std::ostream& operator<<(std::ostream&, ObjectType);
+
     class Object {
     public:
         explicit Object(ObjectType type) : type_(type) {}
@@ -17,6 +19,7 @@ namespace Calc {
         ObjectType GetType() const { return type_; }
 
         virtual std::ostream& operator<<(std::ostream&) const =0;
+
     private:
         ObjectType type_;
     };
@@ -62,12 +65,8 @@ namespace Calc {
             }
         }
 
-        std::vector<std::shared_ptr<Calc::Object>> GetObjects() {
+        std::vector<std::shared_ptr<Calc::Object>>& GetVector() {
             return objects_;
-        }
-
-        void PutObject(const std::shared_ptr<Calc::Object>& object) {
-            objects_.push_back(object);
         }
 
         std::ostream& operator<<(std::ostream& output) const override {
@@ -106,5 +105,6 @@ namespace Calc {
     };
 
 }
+
 
 #endif //SAKU_OBJECT_H

@@ -28,15 +28,19 @@ int main() {
     kernel->AssignVariable("arg", make_shared<Calc::ValueObject<double>>("x", 3.14));
 
     auto vec = make_shared<Calc::VectorObject>();
-    vec->PutObject(make_shared<Calc::StringObject>("one"));
-    vec->PutObject(make_shared<Calc::StringObject>("two"));
-    vec->PutObject(make_shared<Calc::StringObject>("three"));
-    vec->PutObject(make_shared<Calc::ValueObject<double>>("pi", 3.14));
     kernel->AssignVariable("vec", vec);
+
+    // TODO: Переместить всю эту кашу с парсингом в Parser.cpp
 
     for (string command; getln(cin, command);) {
 
         Calc::remove_spaces(command);
+        try {
+            Calc::is_valid(command);
+        } catch (const std::exception& e) {
+            cout << "Недопустимый ввод: " << e.what() << endl;
+            continue;
+        }
         if (command.empty()) continue;
         if (command == "exit") break;
 
@@ -70,7 +74,7 @@ int main() {
                     // Не допускаем, чтобы пользователь создал переменную совпадающую с именем
                     // одной из достпуных комманд
                     string variable_name(command.begin(), first_token);
-                    if (manager->GetCommandMap().count(variable_name) != 0) {
+                    if (manager->GetCommandMap().count(variable_name) != 0 || variable_name == "exit") {
                         cout << "Ошибка: имя переменной совпадает с командой" << endl;
                         cout << "    " << variable_name << " - " << manager->GetCommand(variable_name)->GetDescription() << endl;
                         continue;
@@ -82,6 +86,8 @@ int main() {
                     if (var != nullptr) kernel->AssignVariable(string(command.begin(), first_token), var);
 
                 } else if (next_symbol == '(' || next_symbol == ',' || next_symbol == '\"') {
+
+                    // TODO: Парсить надо в любом случае
 
                     // Парсим выражение
                     auto temp = Calc::parse(command.begin(), command.end());
