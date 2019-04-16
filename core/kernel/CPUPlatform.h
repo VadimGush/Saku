@@ -10,7 +10,7 @@ namespace Calc {
         CPUPlatform(std::string name, cl::Device device)
                 : Platform(std::move(name)), device_(std::move(device)) {}
 
-        void Handle(Operation &operation) override {
+        std::unique_ptr<Object> Handle(Operation &operation) override {
             operation.Calculate(*this);
         }
 

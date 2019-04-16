@@ -11,7 +11,7 @@ namespace Calc {
     class Operation_Integral : public Operation {
     public:
 
-        void init(std::shared_ptr<Calc::Object>) override;
+        explicit Operation_Integral(const std::shared_ptr<Calc::Object>&);
 
         std::unique_ptr<Calc::Object> Calculate(RuntimePlatform &) override;
 

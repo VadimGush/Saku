@@ -1,16 +1,10 @@
 #include "Kernel.h"
 #include "RuntimePlatform.h"
 #include "CPUPlatform.h"
+#include "operations/Operation_Integral.h"
+#include "operations/Operation_Pow.h"
 
 using namespace Calc;
-
-std::shared_ptr<Kernel> Kernel::instance_ = nullptr;
-
-std::shared_ptr<Kernel> Kernel::Instance() {
-    if (instance_ == nullptr)
-        instance_ = std::shared_ptr<Kernel>(new Kernel());
-    return instance_;
-}
 
 static void init_opencl(std::vector<std::shared_ptr<Platform>> &platforms_) {
     std::vector<cl::Platform> platforms;
@@ -27,6 +21,33 @@ static void init_opencl(std::vector<std::shared_ptr<Platform>> &platforms_) {
         }
     }
 }
+
+std::shared_ptr<Kernel> Kernel::instance_ = nullptr;
+
+std::shared_ptr<Kernel> Kernel::Instance() {
+    if (instance_ == nullptr)
+        instance_ = std::shared_ptr<Kernel>(new Kernel());
+    return instance_;
+}
+
+std::unique_ptr<Object> Kernel::Calculate(const std::string& function_name, const std::shared_ptr<Calc::Object>& args) {
+    using namespace std;
+    unique_ptr<Calc::Operation> operation;
+
+    if (function_name == "integral")    operation = make_unique<Calc::Operation_Integral>(args);
+    if (function_name == "pow")         operation = make_unique<Calc::Operation_Pow>(args);
+
+
+    if (operation != nullptr)
+        // TODO: Реализовать кеширование
+        return current_platform_->Handle(*operation);
+    else {
+        ostringstream info;
+        info << "Функция " << function_name << "() не найдена";
+        throw Calc::FunctionNotFound(info.str());
+    }
+}
+
 
 Kernel::Kernel() {
     // Runtime платформа для выполнения вычислений внутри программы

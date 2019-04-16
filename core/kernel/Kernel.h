@@ -10,6 +10,17 @@
 
 namespace Calc {
 
+    struct FunctionNotFound : public std::exception {
+
+        explicit FunctionNotFound(std::string what) : what_(std::move(what)) {}
+
+        const char* what() const noexcept override {
+            return what_.c_str();
+        }
+    private:
+        std::string what_;
+    };
+
     // Kernel (ядро) инициализирует платформы и хранит все локальные переменные.
     class Kernel {
     public:
@@ -30,6 +41,7 @@ namespace Calc {
             return variables_.at(name);
         }
 
+        // Получить список переменных
         const std::map<std::string, std::shared_ptr<Calc::Object>> &GetVariables() const {
             return variables_;
         }
@@ -45,16 +57,29 @@ namespace Calc {
             variables_.erase(name);
         }
 
+        // Вычисляет функцию на текущей платформе и возвращает результат
+        std::unique_ptr<Calc::Object> Calculate(
+                const std::string& function_name, const std::shared_ptr<Calc::Object>& args);
+
+        // Включает или отключает кеширование результатов
+        void SetCache(bool cache) noexcept { enable_cache_= cache; }
+
+        bool IsCache() noexcept { return enable_cache_; }
+
     private:
         Kernel();
 
         static std::shared_ptr<Kernel> instance_;
 
         std::shared_ptr<Platform> current_platform_;
+
         std::vector<std::shared_ptr<Platform>> platforms_;
 
         std::map<std::string, std::shared_ptr<Calc::Object>> variables_;
 
+        // TODO: Кеширование результатов
+
+        bool enable_cache_ = true;
     };
 }
 

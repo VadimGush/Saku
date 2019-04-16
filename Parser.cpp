@@ -125,6 +125,10 @@ shared_ptr<Calc::Object> Calc::parse(string::iterator begin, string::iterator en
                 throw ParserException(information.str());
             } else {
                 // здесь вызов функции
+
+                auto last_braces = find_last_brace(var_end + 1, end);
+                auto args = parse(var_end + 1, last_braces);
+                var = kernel->Calculate(string(begin, var_end), args);
             }
         }
 

@@ -106,11 +106,14 @@ namespace Calc {
         double value_;
     };
 
-    struct InvalidArgument : public std::exception {};
+    struct InvalidArgument : public std::exception {
+        const char* what() const noexcept override { return "Неверный аргумент"; }
+    private:
+    };
 
     template<typename T>
     std::shared_ptr<T> downcast(std::shared_ptr<Object> arg, ObjectType type) {
-        if (arg->GetType() != type) {
+        if (arg->GetType() == type) {
             return std::dynamic_pointer_cast<T>(arg);
         } else throw InvalidArgument();
     }

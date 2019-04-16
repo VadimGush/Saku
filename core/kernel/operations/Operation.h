@@ -44,8 +44,6 @@ namespace Calc {
     class Operation {
     public:
 
-        virtual void init(std::shared_ptr<Calc::Object>) = 0;
-
         virtual std::unique_ptr<Calc::Object> Calculate(RuntimePlatform &platform) {
             throw PlatformNotSupported();
         };

@@ -13,8 +13,8 @@ namespace Calc {
     public:
         RuntimePlatform() : Platform("Runtime Platform") {}
 
-        void Handle(Operation &operation) override {
-            operation.Calculate(*this);
+        std::unique_ptr<Object> Handle(Operation &operation) override {
+            return operation.Calculate(*this);
         }
     };
 }

@@ -12,7 +12,7 @@ namespace Calc {
     class Platform {
     public:
         // Запуск функции (операции) на платформе
-        virtual void Handle(Operation &) = 0;
+        virtual std::unique_ptr<Object> Handle(Operation &) = 0;
 
         // Наименование платформы
         const std::string &GetName() const { return name_; }

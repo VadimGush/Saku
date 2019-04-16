@@ -2,7 +2,7 @@
 
 using namespace Calc;
 
-void Operation_Integral::init(std::shared_ptr<Calc::Object> args ) {
+Operation_Integral::Operation_Integral(const std::shared_ptr<Calc::Object>& args) {
 
 }
 

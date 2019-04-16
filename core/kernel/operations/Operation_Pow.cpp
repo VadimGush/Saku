@@ -3,7 +3,7 @@
 
 using namespace Calc;
 
-void Operation_Pow::init(std::shared_ptr<Calc::Object> args) {
+Operation_Pow::Operation_Pow(const std::shared_ptr<Calc::Object>& args) {
     // TODO: Здесь мы дожны по хорошему выдать нормальное исключение с пояснениеями, а не то
     // TODO: , что может выдать нам downcast
     auto vec = downcast<VectorObject>(args, ObjectType::VECTOR);

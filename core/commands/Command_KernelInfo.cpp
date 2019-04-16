@@ -3,9 +3,14 @@
 using namespace Calc;
 
 void Command_KernelInfo::Run(std::ostream &output) {
+    using namespace std;
     auto kernel = Kernel::Instance();
 
-    output << "Список доступных платформ:" << std::endl;
+    output << "Параметры ядра:" << endl;
+    output << " Кеширование: " << (kernel->IsCache() ? "включено" : "выключено") << endl;
+    output << endl;
+
+    output << "Список доступных платформ:" << endl;
     int id = 0;
     for (const auto &platform : kernel->GetPlatforms()) {
         if (kernel->GetPlatform() == platform)
@@ -13,7 +18,7 @@ void Command_KernelInfo::Run(std::ostream &output) {
         else
             output << "     ";
         output << "[" << id << "] " << platform->GetName();
-        output << std::endl;
+        output << endl;
         id++;
     }
 }
