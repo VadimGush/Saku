@@ -7,8 +7,8 @@
 #include <iostream>
 
 namespace Calc {
-    // Не является платформой как таковой. Отвечает за вычисления, которые можно
-    // выполнить непосредственно внутри программы.
+    // RuntimePlatform - стандартная платформа, которая не закреплена за каким-либо устройством и используемая
+    // для вычислений внутри программы.
     class RuntimePlatform : public Platform {
     public:
         RuntimePlatform() : Platform("Runtime Platform") {}

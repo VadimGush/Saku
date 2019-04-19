@@ -5,6 +5,8 @@
 #include <CL/cl2.hpp>
 
 namespace Calc {
+
+    // CPUPlatform - платформа предоставляет доступ к CPU устройствам через OpenCL
     class CPUPlatform : public Platform {
     public:
         CPUPlatform(std::string name, cl::Device device)
@@ -19,6 +21,7 @@ namespace Calc {
     private:
         cl::Device device_;
     };
+
 }
 
 

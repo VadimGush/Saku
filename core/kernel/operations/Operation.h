@@ -44,12 +44,17 @@ namespace Calc {
     class Operation {
     public:
 
+        // Платформо-независимая операция
+        virtual std::unique_ptr<Calc::Object> Calculate() = 0;
+
+        // Операция для стандартной платформы
         virtual std::unique_ptr<Calc::Object> Calculate(RuntimePlatform &platform) {
-            throw PlatformNotSupported();
+            return Calculate();
         };
 
+        // Операция для CPU устройств
         virtual std::unique_ptr<Calc::Object> Calculate(CPUPlatform &platform) {
-            throw PlatformNotSupported();
+            return Calculate();
         }
 
         virtual ~Operation() = default;

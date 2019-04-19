@@ -6,7 +6,7 @@ Operation_Integral::Operation_Integral(const std::shared_ptr<Calc::Object>& args
 
 }
 
-std::unique_ptr<Calc::Object> Operation_Integral::Calculate(RuntimePlatform &) {
+std::unique_ptr<Calc::Object> Operation_Integral::Calculate() {
     // TODO: Переписать под многопоточный процессор
     /*
     double h = (range_.first - range_.second) / n_;

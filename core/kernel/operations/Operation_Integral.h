@@ -13,7 +13,7 @@ namespace Calc {
 
         explicit Operation_Integral(const std::shared_ptr<Calc::Object>&);
 
-        std::unique_ptr<Calc::Object> Calculate(RuntimePlatform &) override;
+        std::unique_ptr<Calc::Object> Calculate() override;
 
     private:
     };

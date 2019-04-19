@@ -107,7 +107,7 @@ namespace Calc {
     };
 
     struct InvalidArgument : public std::exception {
-        const char* what() const noexcept override { return "Неверный аргумент"; }
+        const char* what() const noexcept override { return "Неверный тип аргумента"; }
     private:
     };
 

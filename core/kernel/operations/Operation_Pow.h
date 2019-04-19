@@ -10,7 +10,7 @@ namespace Calc {
 
         explicit Operation_Pow(const std::shared_ptr<Object>&);
 
-        std::unique_ptr<Calc::Object> Calculate(RuntimePlatform &platform) override;
+        std::unique_ptr<Calc::Object> Calculate() override;
 
     private:
         double base_;
