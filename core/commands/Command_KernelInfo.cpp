@@ -10,6 +10,11 @@ void Command_KernelInfo::Run(std::ostream &output) {
     output << " Кеширование: " << (kernel->IsCache() ? "включено" : "выключено") << endl;
     output << endl;
 
+    output << "Состояние кеша:" << endl;
+    output << " Количество объектов: " << kernel->CacheLength() << endl;
+    output << " Размер кеша: ~" << kernel->CacheSize() << " байт" << endl;
+    output << endl;
+
     output << "Список доступных платформ:" << endl;
     int id = 0;
     for (const auto &platform : kernel->GetPlatforms()) {

@@ -3,6 +3,8 @@
 #include "CPUPlatform.h"
 #include "operations/Operation_Integral.h"
 #include "operations/Operation_Pow.h"
+#include "operations/Operation_Hash.h"
+#include "operations/Operation_Size.h"
 
 using namespace Calc;
 
@@ -30,18 +32,34 @@ std::shared_ptr<Kernel> Kernel::Instance() {
     return instance_;
 }
 
-std::unique_ptr<Object> Kernel::Calculate(const std::string& function_name, const std::shared_ptr<Calc::Object>& args) {
+std::shared_ptr<Object> Kernel::Calculate(const std::string& function_name, const std::shared_ptr<Calc::Object>& args) {
     using namespace std;
     unique_ptr<Calc::Operation> operation;
 
     if (function_name == "integral")    operation = make_unique<Calc::Operation_Integral>(args);
     if (function_name == "pow")         operation = make_unique<Calc::Operation_Pow>(args);
+    if (function_name == "hash")        operation = make_unique<Calc::Operation_Hash>(args);
+    if (function_name == "sizeof")      operation = make_unique<Calc::Operation_Size>(args);
 
+    if (operation != nullptr) {
 
-    if (operation != nullptr)
-        // TODO: Реализовать кеширование
-        return current_platform_->Handle(*operation);
-    else {
+        std::shared_ptr<Object> result;
+
+        if (enable_cache_) {
+            auto key = std::make_pair(function_name, args->hash());
+            if (cache_.count(key) != 0) {
+                result = cache_.at(key);
+            } else {
+                result = current_platform_->Handle(*operation);
+                cache_[key] = result;
+            }
+        } else {
+            result = current_platform_->Handle(*operation);
+        }
+
+        return result;
+
+    } else {
         ostringstream info;
         info << "Функция " << function_name << "() не найдена";
         throw Calc::FunctionNotFound(info.str());

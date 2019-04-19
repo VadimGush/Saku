@@ -135,7 +135,7 @@ shared_ptr<Calc::Object> Calc::parse(string::iterator begin, string::iterator en
         // Складываем объект в контейнер
         if (var != nullptr) {
             if (container == nullptr) container = make_unique<Calc::VectorObject>();
-            container->GetVector().push_back(var);
+            container->Put(var);
         }
 
         // Если на конце не запятая, значит это не перечисление
@@ -144,7 +144,7 @@ shared_ptr<Calc::Object> Calc::parse(string::iterator begin, string::iterator en
     }
 
     if (container == nullptr) return nullptr;
-    else if (container->GetVector().size() == 1) return container->GetVector()[0];
+    else if (container->GetSize() == 1) return container->Get(0);
     else return container;
 }
 

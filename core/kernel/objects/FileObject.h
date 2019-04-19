@@ -29,11 +29,17 @@ namespace Calc {
 
         const std::string &GetPath() const { return path_; }
 
+        size_t size() const noexcept override { return path_.length() + extension_.length(); }
+
+        // TODO: Написать нормальное хеширование
+        size_t hash() const noexcept override { return hash_; }
+
         std::ostream &operator<<(std::ostream &output) const override {
             return output << extension_ << ":" << path_;
         }
 
     private:
+        size_t hash_;
         std::string path_;
         std::string extension_;
     };

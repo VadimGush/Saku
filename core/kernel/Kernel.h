@@ -58,13 +58,28 @@ namespace Calc {
         }
 
         // Вычисляет функцию на текущей платформе и возвращает результат
-        std::unique_ptr<Calc::Object> Calculate(
+        std::shared_ptr<Calc::Object> Calculate(
                 const std::string& function_name, const std::shared_ptr<Calc::Object>& args);
 
         // Включает или отключает кеширование результатов
         void SetCache(bool cache) noexcept { enable_cache_= cache; }
 
+        // Включён ли кеш
         bool IsCache() noexcept { return enable_cache_; }
+
+        // Размер кеша в байтах
+        size_t CacheSize() const noexcept {
+            size_t result = 0;
+            for (const auto& element : cache_) {
+                result += element.second->size();
+            }
+            return result;
+        }
+
+        // Количество сохранённых объектов в кеше
+        unsigned long CacheLength() const noexcept {
+            return cache_.size();
+        }
 
     private:
         Kernel();
@@ -77,7 +92,7 @@ namespace Calc {
 
         std::map<std::string, std::shared_ptr<Calc::Object>> variables_;
 
-        // TODO: Кеширование результатов
+        std::map<std::pair<std::string, size_t>, std::shared_ptr<Calc::Object>> cache_;
 
         bool enable_cache_ = true;
     };
